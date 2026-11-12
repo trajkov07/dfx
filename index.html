@@ -422,6 +422,36 @@ img{display:block;-webkit-user-drag:none;pointer-events:none}
 @media (orientation:landscape) and (min-aspect-ratio:2/1){ .end{--k:.56} }
 @media (prefers-reduced-motion:reduce){ .chev .run,.stripes::after,.horizon::after{animation:none} }
 @media (orientation:landscape){ [data-screen="design"] .copy{text-align:center;text-align-last:center} }
+.choose-foot{display:none!important}
+.end>.disc{display:none}
+.end{display:grid;grid-template-columns:auto auto;column-gap:calc(var(--p)*110);align-items:center;justify-items:center}
+.end>*{grid-column:1}
+.end>.end-pick{grid-column:2;grid-row:1/span 5;margin:0}
+.end .logo{margin-top:0}
+.end-name{font-size:calc(var(--p)*30);line-height:calc(var(--p)*40);margin-top:calc(var(--p)*22)}
+@media (orientation:portrait){
+  .end{--k:.84;column-gap:calc(var(--p)*70)}
+  .screen[data-screen="end"] .end{top:0}
+  .end-pick img{height:calc(var(--p)*560)}
+}
+@media (orientation:landscape){
+  .end{--k:.9;column-gap:calc(var(--p)*160)}
+  .end-pick img{height:calc(var(--p)*560)}
+}
+@media (orientation:landscape) and (min-aspect-ratio:2/1){ .end{--k:.8} .end-pick img{height:calc(var(--p)*500)} }
+/* Albanian "MJESHTËRI ARTIZANALE" is the longest label: tighter button text in SQ so it fits the buttons */
+html[lang="sq"] .btn.rect .lbl{letter-spacing:.06em;font-size:.86em}
+html[lang="sq"] .menu .rect.big{width:calc(var(--p)*900)}
+/* phones (narrow portrait): the kiosk sizes leave the small print at ~7px – enlarge it, there is spare height */
+@media (orientation:portrait) and (max-width:600px){
+  .grid4{--p:calc(96vw / 979)}
+  .icard{height:calc(var(--p)*640)}
+  .icard h4{bottom:calc(var(--p)*222)}
+  .icard p,.grid4 .icard:nth-child(n+3) p{top:auto;bottom:calc(var(--p)*26);width:calc(var(--p)*440);font-size:calc(var(--p)*26);line-height:1.55;letter-spacing:.07em;padding-left:.07em}
+  [data-screen="design"] .copy{width:calc(var(--p)*1100);font-size:calc(var(--p)*36);line-height:calc(var(--p)*62);letter-spacing:.1em}
+  .end-name{font-size:calc(var(--p)*40);line-height:calc(var(--p)*52)}
+  .end .t1,.end .t2,.end .t3,.end .sig{font-size:calc(var(--p)*56)}
+}
 </style>
 </head>
 <body>
@@ -591,11 +621,11 @@ const T = {
     sorryAge:"Sorry, this experience is only for adults over 18.",
     sorrySmoker:"This experience is intended for adult smokers only.",
     explore:"Explore DFX",
-    menuSub:"Explore what defines excellence.",
+    menuSub:"Explore what defines excellence",
     craft:"Craftsmanship", innovation:"Innovation", design:"Design",
-    c1h:"A new experience.", c1p:"Distinctive. Refined. Unexpected.",
-    c2h:"Complexity & contrast.", c2p:"Balanced character with a smooth, stimulating finish.",
-    c3h:"Grade A Virginia.", c3p:"Hand-selected tobacco with savory spicy notes.",
+    c1h:"A new experience", c1p:"Distinctive. Refined. Unexpected.",
+    c2h:"Complexity and contrast", c2p:"Balanced character with a smooth, stimulating finish.",
+    c3h:"Grade A Virginia", c3p:"Hand-selected tobacco with savory spicy notes.",
     i1h:"Scented scratching area", i1p:"Mint-scented surface for a refreshing feeling on the fingers.",
     i2h:"Double charcoal filter", i2p:"Double charcoal filter for a smoother taste.",
     i3h:"SENSO tipping", i3p:"SENSO filter paper, providing a tactile experience.",
@@ -607,21 +637,21 @@ const T = {
   },
   mk:{
     yes:"Да", no:"Не",
-    ageQ:"Дали сте над 18 години?",
+    ageQ:"Дали имате повеќе од 18 години?",
     smokerQ:"Дали сте пушач?",
     sorryAge:"Жалиме, ова искуство е наменето само за возрасни лица над 18 години.",
     sorrySmoker:"Ова искуство е наменето само за возрасни пушачи.",
-    explore:"Истражете го DFX",
-    menuSub:"Истражете што ја дефинира извонредноста.",
-    craft:"Мајсторство", innovation:"Иновација", design:"Дизајн",
-    c1h:"Ново искуство.", c1p:"Препознатливо. Префинето. Неочекувано.",
-    c2h:"Сложеност и контраст.", c2p:"Избалансиран карактер со мазен, стимулирачки финиш.",
-    c3h:"Вирџинија класа А.", c3p:"Рачно избран тутун со зачински нотки.",
-    i1h:"Мирисна површина за стружење", i1p:"Површина со мирис на нане за освежувачко чувство на прстите.",
-    i2h:"Двоен филтер со јаглен", i2p:"Двоен филтер со јаглен за помазен вкус.",
-    i3h:"SENSO обвивка", i3p:"SENSO хартија за филтер што овозможува тактилно искуство.",
-    i4h:"Хартија со намален мирис", i4p:"Хартија со специјална технологија за намалување на мирисот на чадот.",
-    designP:"Препознатливата октагонална кутија е надградена со современ дизајн, со контрастни мат и сјајни завршници, нагласени со врвни метални бакарни детали за префинет и луксузен изглед.",
+    explore:"Откријте го DFX",
+    menuSub:"Што ја дефинира извонредноста",
+    craft:"Мајсторството", innovation:"Иновацијата", design:"Дизајнот",
+    c1h:"Ново искуство", c1p:"Препознатливо. Префинето. Неочекувано.",
+    c2h:"Сложеност и контраст", c2p:"Избалансиран карактер со мазен, префинет финиш.",
+    c3h:"Вирџинија класа А", c3p:"Рачно избран тутун со ароматични ноти.",
+    i1h:"Scented scratching area", i1p:"Површина со арома на мента за освежување на прстите.",
+    i2h:"Double charcoal filter", i2p:"Двоен филтер со активен јаглен кој овозможува помек вкус.",
+    i3h:"SENSO tipping", i3p:"SENSO филтер хартија со перфорирани детали кои се чувствуваат на допир.",
+    i4h:"Reduced-smell paper", i4p:"Хартија со специјална технологија за намалување на мирисот на чадот.",
+    designP:"Препознатливата октагонална кутија е надградена со современ дизајн, со контрастни мат и сјајни завршници и премиум бакарни детали за префинет и луксузен изглед.",
     chooseT:"Изберете го вашето искуство", nic:"никотин", tar:"катран", mgU:"мг", pickHint:"Допрете кутија за да изберете", pickDone:"Вашиот избор",
     next:"Следно", finish:"Следно",
     discovered:"Го откривте", startOver:"Почни одново", back:"Назад"
@@ -633,16 +663,16 @@ const T = {
     sorryAge:"Na vjen keq, kjo përvojë është vetëm për të rritur mbi 18 vjeç.",
     sorrySmoker:"Kjo përvojë është e destinuar vetëm për duhanpirës të rritur.",
     explore:"Eksploroni DFX",
-    menuSub:"Eksploroni çfarë përcakton përsosmërinë.",
-    craft:"Mjeshtëri", innovation:"Inovacion", design:"Dizajn",
-    c1h:"Një përvojë e re.", c1p:"Dallues. I rafinuar. I papritur.",
-    c2h:"Kompleksitet & kontrast.", c2p:"Karakter i balancuar me një përfundim të butë dhe stimulues.",
-    c3h:"Virxhinia klasa A.", c3p:"Duhan i përzgjedhur me dorë me nota erëzash.",
-    i1h:"Zonë aromatike gërvishtëse", i1p:"Sipërfaqe me aromë nenexhiku për një ndjesi freskuese në gishta.",
-    i2h:"Filtër i dyfishtë me qymyr", i2p:"Filtër i dyfishtë me qymyr për shije më të butë.",
-    i3h:"SENSO tipping", i3p:"Letër filtri SENSO që ofron një përvojë prekëse.",
-    i4h:"Letër me erë të reduktuar", i4p:"Letër me teknologji speciale e krijuar për të reduktuar erën e tymit.",
-    designP:"Paketimi i shquar tetëkëndor ngrihet me një dizajn bashkëkohor, me përfundime kontrastuese mat dhe të lëmuara, të theksuara nga detaje premium metalike bakri për një pamje të rafinuar dhe luksoze.",
+    menuSub:"Eksploroni atë që përcakton përsosmërinë",
+    craft:"Mjeshtëri artizanale", innovation:"Inovacion", design:"Dizajn",
+    c1h:"Një përvojë e re", c1p:"I veçantë. I rafinuar. I papritur.",
+    c2h:"Kompleksitet dhe kontrast", c2p:"Karakter i ekuilibruar, me një shije të butë dhe stimuluese.",
+    c3h:"Virginia e klasit A", c3p:"Duhan i përzgjedhur me dorë, me nota të këndshme dhe pikante.",
+    i1h:"Scented scratching area", i1p:"Sipërfaqe me aromë menteje për freskimin e gishtërinjve.",
+    i2h:"Double charcoal filter", i2p:"Filtër i dyfishtë me karbon aktiv, që mundëson një shije më të butë.",
+    i3h:"SENSO tipping", i3p:"Letër filtri SENSO me detaje të perforuara që ndihen në prekje.",
+    i4h:"Reduced-smell paper", i4p:"Letër me teknologji të veçantë për zvogëlimin e erës së tymit.",
+    designP:"Paketimi karakteristik tetëkëndësh merr një pamje edhe më të spikatur falë dizajnit bashkëkohor, me kontrast mes sipërfaqeve mat dhe atyre me shkëlqim, të theksuar nga detaje metalike cilësore në ngjyrë bakri, për një pamje të rafinuar dhe luksoze.",
     chooseT:"Zgjidhni përvojën tuaj", nic:"nikotinë", tar:"katran", mgU:"mg", pickHint:"Prekni një paketë për të zgjedhur", pickDone:"Zgjedhja juaj",
     next:"Vazhdo", finish:"Vazhdo",
     discovered:"Zbuluat", startOver:"Fillo nga e para", back:"Prapa"
@@ -817,7 +847,9 @@ document.addEventListener('click',e=>{
   bump();
   const pk = e.target.closest('[data-pack]');
   if(pk){ if(current!=='choose') return;
-    chosen=pk.dataset.pack; refreshChoice(); return; }
+    if(chosen) return;
+    chosen=pk.dataset.pack; refreshChoice();
+    setTimeout(()=>{ if(current==='choose' && chosen){ showChosen(); go('end'); } }, 650); return; }
   const b = e.target.closest('[data-act],[data-sec]'); if(!b) return;
   if(b.dataset.sec){ startSection(b.dataset.sec); return; }
   switch(b.dataset.act){
