@@ -452,6 +452,17 @@ html[lang="sq"] .menu .rect.big{width:calc(var(--p)*900)}
   .end-name{font-size:calc(var(--p)*40);line-height:calc(var(--p)*52)}
   .end .t1,.end .t2,.end .t3,.end .sig{font-size:calc(var(--p)*56)}
 }
+/* intro: big logo + tagline on black, copper dust floating; sizes from the PSD (logo 762 wide, tagline 771 wide, 107 apart) */
+.screen.intro{display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
+.intro-in{position:relative;top:calc(var(--p)*-58);transition:opacity .8s ease}
+.intro-in.out{opacity:0}
+.intro .logo{width:calc(var(--p)*762)}
+.intro .hero .tag{margin-top:calc(var(--p)*107)}
+.intro .tag svg{width:calc(var(--p)*771)}
+#app[data-screen-now="intro"] #flags,#app[data-screen-now="intro"] #fs{opacity:0;pointer-events:none}
+#flags,#fs{transition:opacity .5s}
+.intro .logo svg>g:not(.lg-df){transition:opacity .6s ease}
+.intro .logo svg.xout>g:not(.lg-df){opacity:0}
 </style>
 </head>
 <body>
@@ -467,6 +478,11 @@ html[lang="sq"] .menu .rect.big{width:calc(var(--p)*900)}
   <div id="flags"></div>
   <button class="back" id="backBtn" data-act="back" data-i-label="back" aria-label="Back"><svg viewBox="0 0 46 38"><path d="M43 19H3M21 2L3 19L21 36"/></svg></button>
   <button id="fs" aria-label="Fullscreen"></button>
+
+  <!-- 0 intro (attract loop, tap anywhere to start) -->
+  <section class="screen intro" data-screen="intro" data-bg="none">
+    <div class="intro-in"><div data-hero="tag"></div></div>
+  </section>
 
   <!-- 1 age -->
   <section class="screen psd" data-screen="age" data-bg="full">
@@ -733,7 +749,7 @@ const FLAGS = {
 const $ = (s,r=document)=>r.querySelector(s), $$ = (s,r=document)=>[...r.querySelectorAll(s)];
 const app = $('#app');
 let hist=[], goingBack=false;
-const NO_BACK=['age','smoker','sorry','welcome','end'];
+const NO_BACK=['intro','age','smoker','sorry','welcome','end'];
 let lang='en', chosen=null, current=null, visited=new Set(), lock=false, idleTimer=null, sorryTimer=null;
 
 const PACKS = {
@@ -812,7 +828,7 @@ function show(name){
   clearTimeout(sorryTimer);
   if(prev){ prev.classList.remove('active'); prev.classList.add('leaving'); setTimeout(()=>prev.classList.remove('leaving'),700); }
   if(!goingBack && current && current!==name) hist.push(current);
-  current=name;
+  current=name; app.dataset.screenNow=name;
   $('#backBtn').classList.toggle('on', !NO_BACK.includes(name) && hist.length>0);
   requestAnimationFrame(placeBack);
   app.dataset.bg = next.dataset.bg || 'none';
@@ -837,14 +853,15 @@ function afterSection(){
 }
 function reset(){
   visited.clear(); hist=[]; lock=false; chosen=null; refreshChoice();
-  setLang('en');
-  show('age');
+  setLang('mk');
+  show('intro'); introLoop();
 }
 function sorry(key){ sorryKey=key; $('#sorryMsg').textContent=T[lang][key]; go('sorry'); sorryTimer=setTimeout(reset,SORRY_MS); }
 
 document.addEventListener('click',e=>{
   tryFullscreenOnce();
   bump();
+  if(current==='intro'){ go('age'); return; }
   const pk = e.target.closest('[data-pack]');
   if(pk){ if(current!=='choose') return;
     if(chosen) return;
@@ -873,7 +890,7 @@ document.addEventListener('click',e=>{
 /* idle -> back to the start (handy at events) */
 function bump(){
   clearTimeout(idleTimer);
-  idleTimer=setTimeout(()=>{ if(current!=='age') reset(); },IDLE_MS);
+  idleTimer=setTimeout(()=>{ if(current!=='intro') reset(); },IDLE_MS);
 }
 ['touchstart','pointerdown'].forEach(ev=>document.addEventListener(ev,bump,{passive:true}));
 
@@ -931,11 +948,27 @@ document.addEventListener('contextmenu',e=>e.preventDefault());
   requestAnimationFrame(tick);
 })();
 
+/* intro loop (variant B): DF + tagline stay; only the X fades and draws itself again */
+const INTRO_MS = 4500;
+let introTimer=null;
+function introLoop(){
+  clearTimeout(introTimer);
+  introTimer=setTimeout(()=>{
+    if(current!=='intro') return;
+    const svg=$('.intro [data-logo] svg'); if(!svg){ introLoop(); return; }
+    svg.classList.add('xout');
+    setTimeout(()=>{
+      if(current!=='intro'){ svg.classList.remove('xout'); return; }
+      svg.querySelectorAll('.lg-draw,.lg-flash').forEach(el=>{ el.style.animation='none'; void el.getBoundingClientRect(); el.style.animation=''; });
+      svg.classList.remove('xout'); introLoop();
+    },700);
+  },INTRO_MS);
+}
 /* init */
 $$('[data-art]').forEach(a=>{ const r=a.cloneNode(); r.removeAttribute('data-art'); r.className='rf'; a.after(r); });
-buildHeroes(); buildFlags(); setLang('en'); syncFS();
+buildHeroes(); buildFlags(); setLang('mk'); syncFS();
 window.__show = show; window.__setLang = setLang;   // for testing
-show('age'); bump();
+show('intro'); introLoop(); bump();
 </script>
 </body>
 </html>
